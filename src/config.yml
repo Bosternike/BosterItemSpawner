@@ -1,0 +1,105 @@
+# This plugin has been created by Bosternike (Discord: Bosternike#7428).
+#
+# PERMISSIONS:
+# Permission to use /bis - boster.itemspawner.command.use
+# Permission to use /bis help - boster.itemspawner.command.help
+# Permission to use /bis create - boster.itemspawner.command.create
+# Permission to use /bis <command> boster.itemspawner.command.<command>
+
+Settings:
+  Prefix: '&d&lItemSpawner &8&l|'
+
+Defaults:
+  # Amount of ticks per cycle. 20 ticks = 1 second, it means that cycles delay will be 1 second.
+  DelayTicksAmount: 20
+  # Amount of cycles.
+  SpawnDelay: 20
+  CounterFormat:
+    Automatic: true
+    AutomaticCounter:
+      MaxAmount: 20
+      Format: '▍'
+    PremadeCounter:
+      0: '0'
+      1: '▍'
+      2: '▍▍'
+      3: '▍▍▍'
+      4: '▍▍▍▍'
+      5: '▍▍▍▍▍'
+  SpawnLimit:
+    Enabled: false
+    amount: 3
+    DisableCounterOnFull: true
+  ShowItem:
+    Enabled: true
+    # Show the item in top of hologram or in the bottom?
+    InTop: true
+  Hologram:
+  - '&f'
+  - '&fDelay&7: &d%delay%'
+  - '&7Spawn in: &f%spawn_in%'
+  - '&d%spawn_in_formatted%'
+  - '&f'
+
+Messages:
+  noPermission: "%prefix% &cYou don't have permission to use this command!"
+  nullArgs: '%prefix% &fType &d/bis help &ffor help.'
+  invalidArgument: '%prefix% &fInvalid syntax: &c%syntax%'
+  spawnerExists: '%prefix% &fSpawner with name &c%name% &falready exists.'
+  spawnerNull: '%prefix% &fSpawner &c%name% &fdoes not exist.'
+  help:
+    noPermission: "&cYou don't have permission to request help."
+    noHelpCommands: "You don't have permission to any other plugin commands."
+    # Remove command from sequence to remove from help.
+    sequence:
+    - 'reload'
+    - 'create'
+    - 'delete'
+    - 'edit'
+    - 'info'
+    startWith:
+    - '&f'
+    endWith:
+    - '&f'
+  reload:
+    noPermission: "&cYou don't have permission to reload the plugin"
+    help:
+    - ' &fReload the plugin &7- &d/bis reload'
+    success: '%prefix% &fThe plugin has been reloaded!'
+  create:
+    usage: '%prefix% &fUsage &7- &d/bis create [name]'
+    help:
+      - ' &fCreate arena &7- &d/bis create [name]'
+    success: '%prefix% &fArena &a%name% &fhas been created!'
+  delete:
+    usage: '%prefix% &fUsage &7- &d/bis delete [name]'
+    help:
+      - '&f Delete spawner &7- &d/bis delete [name]'
+    success: '%prefix% &fArena &a%name% &fhas been deleted!'
+  edit:
+    usage: '%prefix% &fUsage &7- &d/bis edit [name] [argument]'
+    help:
+      - '&f Set location &7- &d/bis edit [name] setLocation'
+      - '&f Set item from your hand &7- &d/bis edit [name] setItem'
+      - '&f Load arena &7- &d/bis edit [name] load'
+    location: '%prefix% &fLocation was set at&7: &d%location%&f!'
+    nullItem: '%prefix% &fYou must hold item in hand!'
+    item: '%prefix% &fItem was set!'
+    couldNotLoad: '%prefix% &fCould not load spawner &c%spawner%&f, because not all needed data is set.'
+    loaded: '%prefix% &fSpawner &a%spawner%&f loaded successfully!'
+  info:
+    usage: '%prefix% &fUsage &7- &d/bis info [name]'
+    success:
+    - '&f'
+    - '&6+&a---------------- &d%name% &a------------------&6+'
+    - '&fSource&7: &b%source%'
+    - '&fLocation&7: &b%location%'
+    - '&fSpawn delay&7: &b%delay%'
+    - '&fSpawn limit&7: &b%spawn_limit%'
+    - '&fCounter format&7: &b%counter_format%'
+    - '&fHologram text&7:'
+    - '%text%'
+    - '&6+&a---------------- &d%name% &a------------------&6+'
+    - '&f'
+
+      
