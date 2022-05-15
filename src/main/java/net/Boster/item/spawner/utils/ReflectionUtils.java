@@ -61,9 +61,10 @@ public class ReflectionUtils {
 
         try {
             Object w = classCache.get("CraftWorld").getMethod("getHandle").invoke(loc.getWorld());
-            Object e = classCache.get("EntityItem").getConstructor(classCache.get("World")).newInstance(w);
-            classCache.get("Entity").getMethod("setPosition", double.class, double.class, double.class).invoke(e, loc.getX(), loc.getY(), loc.getZ());
-            e.getClass().getMethod("setItemStack", i.getClass()).invoke(e, i);
+            Object e = classCache.get("EntityItem").getConstructor(classCache.get("World"), double.class, double.class, double.class, i.getClass()).newInstance(w, loc.getX(), loc.getY(), loc.getZ(), i);
+            if(Version.getCurrentVersion().getVersionInteger() > 9) {
+                classCache.get("Entity").getMethod("setMot", double.class, double.class, double.class).invoke(e, 0, 0, 0);
+            }
             e.getClass().getMethod("setNoGravity", boolean.class).invoke(e, noGravity);
             w.getClass().getMethod("addEntity", classCache.get("Entity"), CreatureSpawnEvent.SpawnReason.class).invoke(w, e, CreatureSpawnEvent.SpawnReason.CUSTOM);
             return (Item) classCache.get("EntityItem").getMethod("getBukkitEntity").invoke(e);
