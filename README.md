@@ -18,7 +18,7 @@
 
   <p align="center">
     <br />
-    <a href="https://github.com/Bosternike/BosterItemSpawner"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Bosternike/BosterItemSpawner/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/Bosternike/BosterItemSpawner/issues">Report Bug</a>
