@@ -1,6 +1,7 @@
 package net.Boster.item.spawner.commands.subcommands;
 
 import net.Boster.item.spawner.BosterItemSpawner;
+import net.Boster.item.spawner.commands.SubCommand;
 import net.Boster.item.spawner.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;

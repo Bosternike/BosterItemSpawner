@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
@@ -43,20 +42,13 @@ public class Events implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChunkLoad(ChunkLoadEvent e) {
-        for(ItemSpawner i : ItemSpawner.holograms()) {
+        ItemSpawner.holograms().stream().filter(h -> !h.isRunning()).forEach(i -> {
             Chunk loc = i.getLocation().getChunk();
             if(loc.getWorld() == e.getChunk().getWorld() &&
-                    loc.getX() == e.getChunk().getX() && loc.getZ() == loc.getZ() && !i.isRunning()) {
+                    loc.getX() == e.getChunk().getX() && loc.getZ() == loc.getZ()) {
                 i.start();
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPickup(PlayerPickupItemEvent e) {
-        if(e.getItem().getCustomName() != null && e.getItem().getCustomName().equalsIgnoreCase(ItemSpawner.NO_PICKUP)) {
-            e.setCancelled(true);
-        }
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

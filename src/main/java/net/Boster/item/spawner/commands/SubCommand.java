@@ -1,4 +1,4 @@
-package net.Boster.item.spawner.commands.subcommands;
+package net.Boster.item.spawner.commands;
 
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;

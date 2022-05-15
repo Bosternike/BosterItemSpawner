@@ -1,10 +1,12 @@
 package net.Boster.item.spawner.hologram;
+
 import lombok.Getter;
 import net.Boster.item.spawner.utils.ReflectionUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class CustomHologram {
         }
     }
 
-    public void setLine(int i, String s) {
+    public void setLine(int i, @Nullable String s) {
         if(i >= holograms.length) {
             return;
         }
@@ -43,9 +45,19 @@ public class CustomHologram {
                 holograms[i].setCustomNameVisible(false);
                 holograms[i].setMarker(true);
             }
-            holograms[i].setCustomName(s);
-            holograms[i].setCustomNameVisible(holograms[i].getCustomName() != null && !ChatColor.stripColor(holograms[i].getCustomName()).equals(""));
+
+            setCustomName(holograms[i], s);
         }
+    }
+
+    protected void setCustomName(ArmorStand h, String s) {
+        if(s == null && h.getCustomName() == null) return;
+        if(s != null && h.getCustomName() != null && s.equals(h.getCustomName())) return;
+
+        h.setCustomName(s);
+
+        String k = ChatColor.stripColor(h.getCustomName());
+        h.setCustomNameVisible(k != null && !k.isEmpty());
     }
 
     public void remove() {

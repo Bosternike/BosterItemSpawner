@@ -5,6 +5,11 @@
 # Permission to use /bis help - boster.itemspawner.command.help
 # Permission to use /bis create - boster.itemspawner.command.create
 # Permission to use /bis <command> boster.itemspawner.command.<command>
+#
+# PlaceholderAPI PLACEHOLDERS:
+# Placeholder for spawner delay - %bosteritemspawner_<spawner>_delay%
+# Placeholder for spawner remaining time - %bosteritemspawner_<spawner>_remaining%
+# Placeholder for spawner remaining time formatted - %bosteritemspawner_<spawner>_sif%
 
 Settings:
   Prefix: '&d&lItemSpawner &8&l|'

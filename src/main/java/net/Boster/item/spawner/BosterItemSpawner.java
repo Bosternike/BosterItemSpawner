@@ -2,6 +2,7 @@ package net.Boster.item.spawner;
 
 import lombok.Getter;
 import net.Boster.item.spawner.commands.Commands;
+import net.Boster.item.spawner.libs.PAPISupport;
 import net.Boster.item.spawner.listeners.Events;
 import net.Boster.item.spawner.listeners.pickup.NewPickupListener;
 import net.Boster.item.spawner.listeners.pickup.OldPickupListener;
@@ -20,6 +21,8 @@ public class BosterItemSpawner extends JavaPlugin {
         instance = this;
 
         saveDefaultConfig();
+
+        PAPISupport.load();
 
         getCommand("bosteritemspawner").setExecutor(new Commands(this));
 
