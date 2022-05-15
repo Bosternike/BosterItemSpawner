@@ -30,8 +30,8 @@ public class CreateCommand extends SubCommand {
             return false;
         }
 
-        if(sender instanceof Player p) {
-            SpawnersManager.createSpawner(args[0], p.getLocation().add(0, 1, 0), p.getName());
+        if(sender instanceof Player) {
+            SpawnersManager.createSpawner(args[0], ((Player) sender).getLocation().add(0, 1, 0), sender.getName());
         } else {
             SpawnersManager.createSpawner(args[0], null, sender.getName());
         }

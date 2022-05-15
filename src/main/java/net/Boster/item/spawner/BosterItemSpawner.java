@@ -20,6 +20,10 @@ public class BosterItemSpawner extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        if(Version.getCurrentVersion().getVersionInteger() < 6) {
+            throw new IllegalStateException("Current version is too old. Version support starts from 1.10");
+        }
+
         saveDefaultConfig();
 
         PAPISupport.load();

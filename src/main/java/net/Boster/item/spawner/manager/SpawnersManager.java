@@ -54,7 +54,7 @@ public class SpawnersManager {
             s.delayTicksAmount = f.getFile().getInt("DelayTicksAmount", 20);
             s.spawnDelay = f.getFile().getInt("SpawnDelay", 20);
             try {
-                s.item = f.getFile().getItemStack("item");
+                s.item = Utils.deserializeItem(f.getFile().getString("item"));
             } catch (Exception e) {
                 return false;
             }

@@ -40,7 +40,6 @@ public class CustomHologram {
         } else {
             if(holograms[i] == null) {
                 holograms[i] = ReflectionUtils.getArmorStand(linesLocations.get(i), true, true);
-                holograms[i].setGravity(false);
                 holograms[i].setCanPickupItems(false);
                 holograms[i].setCustomNameVisible(false);
                 holograms[i].setMarker(true);

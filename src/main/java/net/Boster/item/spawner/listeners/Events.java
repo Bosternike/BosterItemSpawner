@@ -1,6 +1,8 @@
 package net.Boster.item.spawner.listeners;
 
+import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.hologram.ItemSpawner;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -42,12 +44,14 @@ public class Events implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChunkLoad(ChunkLoadEvent e) {
-        ItemSpawner.holograms().stream().filter(h -> !h.isRunning()).forEach(i -> {
-            Chunk loc = i.getLocation().getChunk();
-            if(loc.getWorld() == e.getChunk().getWorld() &&
-                    loc.getX() == e.getChunk().getX() && loc.getZ() == loc.getZ()) {
-                i.start();
-            }
+        Bukkit.getScheduler().runTask(BosterItemSpawner.getInstance(), () -> {
+            ItemSpawner.holograms().stream().filter(h -> !h.isRunning()).forEach(i -> {
+                Chunk loc = i.getLocation().getChunk();
+                if(loc.getWorld() == e.getChunk().getWorld() &&
+                        loc.getX() == e.getChunk().getX() && loc.getZ() == loc.getZ()) {
+                    i.start();
+                }
+            });
         });
     }
 

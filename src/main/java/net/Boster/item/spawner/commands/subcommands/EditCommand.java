@@ -1,5 +1,6 @@
 package net.Boster.item.spawner.commands.subcommands;
 
+import com.google.common.collect.Lists;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.commands.SubCommand;
 import net.Boster.item.spawner.files.SpawnerFile;
@@ -19,7 +20,7 @@ public class EditCommand extends SubCommand {
 
     public EditCommand(BosterItemSpawner plugin) {
         super(plugin, "edit");
-        this.cmds = List.of("setLocation", "setItem", "load");
+        this.cmds = Lists.newArrayList("setLocation", "setItem", "load");
     }
 
     @Override
@@ -47,12 +48,12 @@ public class EditCommand extends SubCommand {
             sender.sendMessage(Utils.toColor(getMessage("location").replace("%location%", loc)));
             return true;
         } else if(args[1].equalsIgnoreCase("setitem")) {
-            ItemStack item = p.getInventory().getItem(p.getInventory().getHeldItemSlot()); //doing to avoid multi-version problems.
+            ItemStack item = p.getInventory().getItem(p.getInventory().getHeldItemSlot()); //doing this to avoid multi-version problems.
             if(item == null) {
                 sender.sendMessage(Utils.toColor(getMessage("nullItem")));
                 return true;
             } else {
-                f.getFile().set("item", item);
+                f.getFile().set("item", Utils.serializeItem(item));
                 f.save();
                 f.tryLoad();
                 sender.sendMessage(Utils.toColor(getMessage("item")));

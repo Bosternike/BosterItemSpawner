@@ -58,10 +58,7 @@ public class SupportFile {
     public void createNewFile() {
         file = new File(BosterItemSpawner.getInstance().getDataFolder(),dir + name + ".yml");
         if(!file.exists()) {
-            File fd = new File(BosterItemSpawner.getInstance().getDataFolder(), dir);
-            if(!fd.exists()) {
-                fd.mkdirs();
-            }
+            file.getParentFile().mkdirs();
             try {
                 file.createNewFile();
             } catch (IOException e) {

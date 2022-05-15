@@ -6,7 +6,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class ReflectionUtils {
@@ -43,15 +42,12 @@ public class ReflectionUtils {
         }
     }
 
-    public static ArmorStand getArmorStand(Location loc, boolean silent, boolean invisible) {
+    public static ArmorStand getArmorStand(Location loc, boolean invisible, boolean noGravity) {
         try {
             Object w = classCache.get("CraftWorld").getMethod("getHandle").invoke(loc.getWorld());
             Object e = classCache.get("EntityArmorStand").getConstructor(classCache.get("World"), double.class, double.class, double.class).newInstance(w, loc.getX(), loc.getY(), loc.getZ());
-            Field persist = e.getClass().getField("persist");
-            persist.setAccessible(true);
-            persist.setBoolean(e, false);
             e.getClass().getMethod("setInvisible", boolean.class).invoke(e, invisible);
-            e.getClass().getMethod("setSilent", boolean.class).invoke(e, silent);
+            e.getClass().getMethod("setNoGravity", boolean.class).invoke(e, noGravity);
             w.getClass().getMethod("addEntity", classCache.get("Entity"), CreatureSpawnEvent.SpawnReason.class).invoke(w, e, CreatureSpawnEvent.SpawnReason.CUSTOM);
             return (ArmorStand) classCache.get("EntityArmorStand").getMethod("getBukkitEntity").invoke(e);
         } catch (Exception e) {
@@ -60,15 +56,14 @@ public class ReflectionUtils {
         return null;
     }
 
-    public static Item dropItem(Location loc, ItemStack item, double d1, double d2, double d3, boolean noGravity) {
+    public static Item dropItem(Location loc, ItemStack item, boolean noGravity) {
         Object i = craftAsNMSCopy(item);
 
         try {
             Object w = classCache.get("CraftWorld").getMethod("getHandle").invoke(loc.getWorld());
-            Object e = classCache.get("EntityItem").getConstructor(classCache.get("World"), double.class, double.class, double.class, i.getClass(), double.class, double.class, double.class).newInstance(w, loc.getX(), loc.getY(), loc.getZ(), i, d1, d2, d3);
-            Field persist = e.getClass().getField("persist");
-            persist.setAccessible(true);
-            persist.setBoolean(e, false);
+            Object e = classCache.get("EntityItem").getConstructor(classCache.get("World")).newInstance(w);
+            classCache.get("Entity").getMethod("setPosition", double.class, double.class, double.class).invoke(e, loc.getX(), loc.getY(), loc.getZ());
+            e.getClass().getMethod("setItemStack", i.getClass()).invoke(e, i);
             e.getClass().getMethod("setNoGravity", boolean.class).invoke(e, noGravity);
             w.getClass().getMethod("addEntity", classCache.get("Entity"), CreatureSpawnEvent.SpawnReason.class).invoke(w, e, CreatureSpawnEvent.SpawnReason.CUSTOM);
             return (Item) classCache.get("EntityItem").getMethod("getBukkitEntity").invoke(e);
@@ -82,10 +77,6 @@ public class ReflectionUtils {
         return dropItem(loc, item, false);
     }
 
-    public static Item dropItem(Location loc, ItemStack item, boolean noGravity) {
-        return dropItem(loc, item, 0, 0, 0, noGravity);
-    }
-
     public static Object craftAsNMSCopy(ItemStack item) {
         try {
             return classCache.get("CraftItemStack").getMethod("asNMSCopy", ItemStack.class).invoke(null, item);
@@ -96,6 +87,6 @@ public class ReflectionUtils {
     }
 
     public static ArmorStand getArmorStand(Location loc) {
-        return getArmorStand(loc, false, false);
+        return getArmorStand(loc, false, true);
     }
 }

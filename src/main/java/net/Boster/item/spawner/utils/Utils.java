@@ -13,7 +13,14 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -100,5 +107,35 @@ public class Utils {
     public static String locationToString(Location loc, boolean withPitchAndYaw) {
         return loc.getWorld().getName() + ", " + loc.getX() + ", " + loc.getY() + ", " + loc.getZ() +
                 (withPitchAndYaw ? ", " + loc.getYaw() + ", " + loc.getPitch() : "");
+    }
+
+    @NotNull
+    public static String serializeItem(@NotNull ItemStack item) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+            dataOutput.writeObject(item);
+
+            dataOutput.close();
+            return Base64Coder.encodeLines(outputStream.toByteArray());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to save item stacks.", e);
+        }
+    }
+
+    @NotNull
+    public static ItemStack deserializeItem(@NotNull String data) {
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+
+            ItemStack item = (ItemStack) dataInput.readObject();
+
+            dataInput.close();
+            return item;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new IllegalArgumentException("Unable to decode class type.", e);
+        }
     }
 }
