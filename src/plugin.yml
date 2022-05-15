@@ -1,8 +1,0 @@
-name: BosterItemSpawner
-main: net.Boster.item.spawner.BosterItemSpawner
-author: Bosternike
-version: 1.0.0
-api-version: 1.13
-commands:
-  bosteritemspawner:
-    aliases: [itemspawner, bis]
