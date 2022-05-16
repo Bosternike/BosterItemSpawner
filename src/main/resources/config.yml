@@ -86,7 +86,7 @@ Messages:
     help:
       - '&f Set location &7- &d/bis edit [name] setLocation'
       - '&f Set item from your hand &7- &d/bis edit [name] setItem'
-      - '&f Load arena &7- &d/bis edit [name] load'
+      - '&f Load spawner &7- &d/bis edit [name] load'
     location: '%prefix% &fLocation was set at&7: &d%location%&f!'
     nullItem: '%prefix% &fYou must hold item in hand!'
     item: '%prefix% &fItem was set!'
