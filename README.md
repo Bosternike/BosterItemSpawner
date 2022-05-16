@@ -27,6 +27,11 @@
   </p>
 </div>
 
+<!-- DEPENDENCIES -->
+## Dependencies
+
+<li>Holographic Displays: https://dev.bukkit.org/projects/holographic-displays</li>
+
 <!-- CONTACT -->
 ## Contact
 
