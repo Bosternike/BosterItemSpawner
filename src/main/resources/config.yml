@@ -94,6 +94,8 @@ Messages:
     loaded: '%prefix% &fSpawner &a%spawner%&f loaded successfully!'
   info:
     usage: '%prefix% &fUsage &7- &d/bis info [name]'
+    help:
+      - '&f Spawner info &7- &d/bis info [spawner]'
     success:
     - '&f'
     - '&6+&a---------------- &d%name% &a------------------&6+'
