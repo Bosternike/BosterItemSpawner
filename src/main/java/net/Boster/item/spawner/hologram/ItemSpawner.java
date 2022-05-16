@@ -1,15 +1,15 @@
 package net.Boster.item.spawner.hologram;
 
+import com.gmail.filoghost.holographicdisplays.object.line.CraftTextLine;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;
 import net.Boster.item.spawner.hologram.counter.AutomaticCounter;
 import net.Boster.item.spawner.hologram.counter.PremadeCounter;
 import net.Boster.item.spawner.hologram.counter.SpawnerCounter;
 import net.Boster.item.spawner.utils.LogType;
-import net.Boster.item.spawner.utils.ReflectionUtils;
 import net.Boster.item.spawner.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ItemSpawner extends AbstractHologram {
-
-    public static final String NO_PICKUP = "§bBosterItemSpawner §eitem, that can't be picked up!";
 
     private static final HashMap<String, ItemSpawner> hash = new HashMap<>();
 
@@ -36,8 +34,7 @@ public class ItemSpawner extends AbstractHologram {
     public boolean spawnLimitDisableCounter;
 
     public boolean showItem;
-    public int showItemI;
-    public double showItemT;
+    public boolean showItemT;
     public Item shownItem;
 
     public SpawnerCounter spawnerCounter;
@@ -91,12 +88,32 @@ public class ItemSpawner extends AbstractHologram {
     }
 
     public void updateLines() {
-        for(int i = 0; i < getLines().size(); i++) {
-            String s = getLines().get(i).replace("%delay%", Integer.toString(spawnDelay))
+        int t = showItemT ? 1 : 0;
+        for(int l = 0; l < getLines().size(); l++) {
+            int i = l + t;
+            String s = Utils.toColor(lines.get(l).replace("%delay%", Integer.toString(spawnDelay))
                     .replace("%spawn_in%", Integer.toString(spawnDelay - ticked))
-                    .replace("%spawn_in_formatted%", spawnerCounter.getAsString());
-            getHologram().setLine(i, Utils.toColor(s));
+                    .replace("%spawn_in_formatted%", spawnerCounter.getAsString()));
+            if(hologram.size() > i) {
+                setLine((CraftTextLine) hologram.getLine(i), s);
+            } else {
+                String c = ChatColor.stripColor(s);
+                if(c == null || c.isEmpty()) {
+                    hologram.insertTextLine(i, null);
+                } else {
+                    hologram.insertTextLine(i, s);
+                }
+            }
         }
+    }
+
+    private void setLine(CraftTextLine line, String s) {
+        if(line.getText() == null && s == null) return;
+
+        String c = ChatColor.stripColor(s);
+        if((line.getText() == null || line.getText().isEmpty()) && (c == null || c.isEmpty())) return;
+
+        line.setText(c != null && !c.isEmpty() ? s : null);
     }
 
     public void filterItems() {
@@ -112,23 +129,23 @@ public class ItemSpawner extends AbstractHologram {
     public void loadShownItem() {
         showItem = file.getFile().getBoolean("ShowItem.Enabled", true);
         if(showItem) {
-            if(file.getFile().getBoolean("ShowItem.InTop", true)) {
-                showItemI = 0;
-                showItemT = 0.3;
-            } else {
-                showItemI = hologram.getLinesLocations().size() - 1;
-                showItemT = -0.3;
-            }
+            showItemT = file.getFile().getBoolean("ShowItem.InTop", true);
         }
+    }
+
+    public void stopTask() {
+        super.stopTask();
     }
 
     public void showItem() {
         if(showItem) {
             ItemStack itemStack = item.clone();
             itemStack.setAmount(1);
-            shownItem = ReflectionUtils.dropItem(hologram.getLinesLocations().get(showItemI).clone().add(0, showItemT, 0), itemStack, true);
-            shownItem.setCustomNameVisible(false);
-            shownItem.setCustomName(NO_PICKUP);
+            if(showItemT) {
+                hologram.insertItemLine(0, itemStack);
+            } else {
+                hologram.appendItemLine(itemStack);
+            }
         }
     }
 
@@ -161,43 +178,6 @@ public class ItemSpawner extends AbstractHologram {
     public void remove() {
         removeHolograms();
         hash.remove(name);
-    }
-
-    public static List<ItemSpawner> getHolograms(Location loc) {
-        List<ItemSpawner> list = new ArrayList<>();
-
-        if(loc == null) return list;
-
-        for(ItemSpawner h : holograms()) {
-            if(h.shownItem != null && h.shownItem.getLocation().equals(loc)) {
-                list.add(h);
-                continue;
-            }
-            for(Location l : h.getHologram().getLinesLocations()) {
-                if(loc.equals(l)) {
-                    list.add(h);
-                }
-            }
-        }
-
-        return list;
-    }
-
-    public static ItemSpawner getHologram(Entity e) {
-        if(e == null) return null;
-
-        for(ItemSpawner h : holograms()) {
-            if(h.shownItem != null && h.shownItem == e) {
-                return h;
-            }
-            for(int i = 0; i < h.getHologram().getHolograms().length; i++) {
-                if(h.getHologram().getHolograms()[i] == e) {
-                    return h;
-                }
-            }
-        }
-
-        return null;
     }
 
     public static Collection<ItemSpawner> holograms() {

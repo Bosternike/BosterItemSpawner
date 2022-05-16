@@ -1,5 +1,7 @@
 package net.Boster.item.spawner.hologram;
 
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.object.CraftHologram;
 import lombok.Getter;
 import net.Boster.item.spawner.BosterItemSpawner;
 import org.bukkit.Location;
@@ -13,14 +15,14 @@ import java.util.List;
 public abstract class AbstractHologram {
 
     @Getter @NotNull protected final Location location;
-    @Getter @NotNull protected final CustomHologram hologram;
-    @NotNull protected final List<String> list;
+    @Getter @NotNull protected final CraftHologram hologram;
+    @Getter @NotNull protected final List<String> lines;
     @Nullable protected BukkitTask task;
 
-    public AbstractHologram(Location loc, List<String> lines) {
+    public AbstractHologram(Location loc, @NotNull List<String> lines) {
         this.location = loc;
-        this.list = lines;
-        this.hologram = new CustomHologram(loc.clone(), lines.size());
+        this.lines = lines;
+        this.hologram = (CraftHologram) HologramsAPI.createHologram(BosterItemSpawner.getInstance(), loc.clone());
     }
 
     public void run() {
@@ -52,10 +54,6 @@ public abstract class AbstractHologram {
     public abstract void tick();
 
     public void remove() {
-        hologram.remove();
-    }
-
-    public List<String> getLines() {
-        return list;
+        hologram.delete();
     }
 }

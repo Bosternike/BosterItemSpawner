@@ -3,13 +3,9 @@ package net.Boster.item.spawner;
 import lombok.Getter;
 import net.Boster.item.spawner.commands.Commands;
 import net.Boster.item.spawner.libs.PAPISupport;
-import net.Boster.item.spawner.listeners.Events;
-import net.Boster.item.spawner.listeners.pickup.NewPickupListener;
-import net.Boster.item.spawner.listeners.pickup.OldPickupListener;
 import net.Boster.item.spawner.manager.SpawnersManager;
 import net.Boster.item.spawner.utils.LogType;
 import net.Boster.item.spawner.utils.Utils;
-import net.Boster.item.spawner.utils.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,17 +16,11 @@ public class BosterItemSpawner extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        if(Version.getCurrentVersion().getVersionInteger() < 6) {
-            throw new IllegalStateException("Current version is too old. Version support starts from 1.10");
-        }
-
         saveDefaultConfig();
 
         PAPISupport.load();
 
         getCommand("bosteritemspawner").setExecutor(new Commands(this));
-
-        registerListeners();
 
         getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
             Bukkit.getConsoleSender().sendMessage("\u00a76+\u00a7a---------------- \u00a7dBosterItemSpawner \u00a7a------------------\u00a76+");
@@ -56,14 +46,5 @@ public class BosterItemSpawner extends JavaPlugin {
 
     public void log(String s, LogType log) {
         Bukkit.getConsoleSender().sendMessage(log.getFormat() + log.getColor() + Utils.toColor(s));
-    }
-
-    private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new Events(), this);
-        if(Version.getCurrentVersion().getVersionInteger() < 8) {
-            getServer().getPluginManager().registerEvents(new OldPickupListener(), this);
-        } else {
-            getServer().getPluginManager().registerEvents(new NewPickupListener(), this);
-        }
     }
 }
