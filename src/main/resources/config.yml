@@ -12,7 +12,7 @@
 # Placeholder for spawner remaining time formatted - %bosteritemspawner_<spawner>_sif%
 
 Settings:
-  Prefix: '&d&lItemSpawner &8&l|'
+  Prefix: '&d&lBosterItemSpawner &8&l|'
 
 Defaults:
   # Amount of ticks per cycle. 20 ticks = 1 second, it means that cycles delay will be 1 second.
@@ -74,13 +74,13 @@ Messages:
   create:
     usage: '%prefix% &fUsage &7- &d/bis create [name]'
     help:
-      - ' &fCreate arena &7- &d/bis create [name]'
-    success: '%prefix% &fArena &a%name% &fhas been created!'
+      - ' &fCreate spawner &7- &d/bis create [name]'
+    success: '%prefix% &fSpawner &a%name% &fhas been created!'
   delete:
     usage: '%prefix% &fUsage &7- &d/bis delete [name]'
     help:
       - '&f Delete spawner &7- &d/bis delete [name]'
-    success: '%prefix% &fArena &a%name% &fhas been deleted!'
+    success: '%prefix% &fSpawner &a%name% &fhas been deleted!'
   edit:
     usage: '%prefix% &fUsage &7- &d/bis edit [name] [argument]'
     help:
