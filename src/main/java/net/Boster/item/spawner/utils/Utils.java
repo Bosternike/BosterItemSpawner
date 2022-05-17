@@ -7,10 +7,7 @@ import net.Boster.item.spawner.utils.colorutils.ColorUtils;
 import net.Boster.item.spawner.utils.colorutils.NewColorUtils;
 import net.Boster.item.spawner.utils.colorutils.OldColorUtils;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -137,5 +134,9 @@ public class Utils {
         } catch (ClassNotFoundException | IOException e) {
             throw new IllegalArgumentException("Unable to decode class type.", e);
         }
+    }
+
+    public static boolean chunkEquals(@NotNull Chunk c1, @NotNull Chunk c2) {
+        return c1.getWorld() == c2.getWorld() && c1.getX() == c2.getX() && c1.getZ() == c2.getZ();
     }
 }

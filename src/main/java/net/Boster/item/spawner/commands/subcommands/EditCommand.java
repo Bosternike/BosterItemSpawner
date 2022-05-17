@@ -20,7 +20,7 @@ public class EditCommand extends SubCommand {
 
     public EditCommand(BosterItemSpawner plugin) {
         super(plugin, "edit");
-        this.cmds = Lists.newArrayList("setLocation", "setItem", "load");
+        this.cmds = Lists.newArrayList("setLocation", "setItem", "setSpawnDelay", "setTicksDelay", "load");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EditCommand extends SubCommand {
             return true;
         } else if(args[1].equalsIgnoreCase("setitem")) {
             ItemStack item = p.getInventory().getItem(p.getInventory().getHeldItemSlot()); //doing this to avoid multi-version problems.
-            if(item == null) {
+            if (item == null) {
                 sender.sendMessage(Utils.toColor(getMessage("nullItem")));
                 return true;
             } else {
@@ -59,6 +59,30 @@ public class EditCommand extends SubCommand {
                 sender.sendMessage(Utils.toColor(getMessage("item")));
                 return true;
             }
+        } else if(args[1].equalsIgnoreCase("setspawndelay") || args[1].equalsIgnoreCase("setticksdelay")) {
+            if(args.length < 3) {
+                sender.sendMessage(Utils.toColor(getMessage("setDelayUsage")));
+                return false;
+            }
+
+            int delay;
+            try {
+                delay = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                sender.sendMessage(Utils.toColor(getMessage("notInteger").replace("%arg%", args[2])));
+                return false;
+            }
+
+            if(args[1].equalsIgnoreCase("setspawndelay")) {
+                f.getFile().set("SpawnDelay", delay);
+                sender.sendMessage(Utils.toColor(getMessage("setSpawnDelay").replace("%spawner%", args[0]).replace("%delay%", args[2])));
+            } else {
+                f.getFile().set("DelayTicksAmount", delay);
+                sender.sendMessage(Utils.toColor(getMessage("setTicksDelay").replace("%spawner%", args[0]).replace("%delay%", args[2])));
+            }
+            f.save();
+            f.tryLoad();
+            return true;
         } else if(args[1].equalsIgnoreCase("load")) {
             ItemSpawner is = ItemSpawner.get(args[1]);
             if(is != null) {

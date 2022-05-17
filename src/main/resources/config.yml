@@ -84,14 +84,20 @@ Messages:
   edit:
     usage: '%prefix% &fUsage &7- &d/bis edit [name] [argument]'
     help:
-      - '&f Set location &7- &d/bis edit [name] setLocation'
-      - '&f Set item from your hand &7- &d/bis edit [name] setItem'
-      - '&f Load spawner &7- &d/bis edit [name] load'
+    - '&f Set location &7- &d/bis edit [name] setLocation'
+    - '&f Set item from your hand &7- &d/bis edit [name] setItem'
+    - '&f Set spawn delay &7- &d/bis edit [name] setSpawnDelay [delay]'
+    - '&f Set ticks delay &7- &d/bis edit [name] setTicksDelay [delay]'
+    - '&f Load spawner &7- &d/bis edit [name] load'
     location: '%prefix% &fLocation was set at&7: &d%location%&f!'
     nullItem: '%prefix% &fYou must hold item in hand!'
     item: '%prefix% &fItem was set!'
     couldNotLoad: '%prefix% &fCould not load spawner &c%spawner%&f, because not all needed data is set.'
     loaded: '%prefix% &fSpawner &a%spawner%&f loaded successfully!'
+    notInteger: '%prefix% &c%arg% &fis not an integer.'
+    setDelayUsage: '%prefix% Please, provide &ddelay &fargument.'
+    setSpawnDelay: '%prefix% &fSpawn delay was set for spawner &a%spawner%&f to &b%delay%&f!'
+    setTicksDelay: '%prefix% &fSpawn delay was set for spawner &a%spawner%&f to &b%delay%&f!'
   info:
     usage: '%prefix% &fUsage &7- &d/bis info [name]'
     help:

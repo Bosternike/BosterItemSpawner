@@ -19,7 +19,8 @@ public class AutomaticCounter implements SpawnerCounter {
     @Override
     public void secondRun() {
         String r = "";
-        for(int i = 0; i < maxAmount - Math.max(0, spawner.ticked * (maxAmount / spawner.spawnDelay)); i++) {
+        int m = Math.min(spawner.spawnDelay, maxAmount);
+        for(int i = 0; i < m - Math.max(0, spawner.ticked * ((double) m / (double) spawner.spawnDelay)); i++) {
             r += format;
         }
         str = r;
@@ -28,7 +29,7 @@ public class AutomaticCounter implements SpawnerCounter {
     @Override
     public void refresh() {
         str = "";
-        for(int i = 0; i < maxAmount; i++) {
+        for(int i = 0; i < Math.min(spawner.spawnDelay, maxAmount); i++) {
             str += format;
         }
     }

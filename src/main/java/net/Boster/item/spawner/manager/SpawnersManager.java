@@ -29,7 +29,7 @@ public class SpawnersManager {
         try {
             taskManager.stop();
             taskManager.clear();
-            for(ItemSpawner h : ItemSpawner.holograms()) {
+            for(ItemSpawner h : ItemSpawner.spawners()) {
                 h.clearDrops();
                 h.removeHolograms();
             }

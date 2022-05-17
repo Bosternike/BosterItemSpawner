@@ -9,14 +9,17 @@ import net.Boster.item.spawner.spawner.counter.SpawnerCounter;
 import net.Boster.item.spawner.utils.LogType;
 import net.Boster.item.spawner.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ItemSpawner extends AbstractSpawner {
 
@@ -176,7 +179,16 @@ public class ItemSpawner extends AbstractSpawner {
         hash.remove(name);
     }
 
-    public static Collection<ItemSpawner> holograms() {
+    public boolean isInChunk(@NotNull Chunk c) {
+        if(hologram.isInChunk(c)) return true;
+        return Utils.chunkEquals(c, location.getChunk());
+    }
+
+    public List<Item> dropsInChunk(@NotNull Chunk c) {
+        return droppedItems.stream().filter(i -> Utils.chunkEquals(c, i.getLocation().getChunk())).collect(Collectors.toList());
+    }
+
+    public static Collection<ItemSpawner> spawners() {
         return hash.values();
     }
 }
