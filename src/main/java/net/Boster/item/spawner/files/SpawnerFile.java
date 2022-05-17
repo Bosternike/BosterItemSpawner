@@ -1,6 +1,6 @@
 package net.Boster.item.spawner.files;
 
-import net.Boster.item.spawner.hologram.ItemSpawner;
+import net.Boster.item.spawner.spawner.ItemSpawner;
 import net.Boster.item.spawner.manager.SpawnersManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

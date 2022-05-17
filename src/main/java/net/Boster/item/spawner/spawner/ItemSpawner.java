@@ -1,14 +1,14 @@
-package net.Boster.item.spawner.hologram;
+package net.Boster.item.spawner.spawner;
 
-import com.gmail.filoghost.holographicdisplays.object.line.CraftTextLine;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;
-import net.Boster.item.spawner.hologram.counter.AutomaticCounter;
-import net.Boster.item.spawner.hologram.counter.PremadeCounter;
-import net.Boster.item.spawner.hologram.counter.SpawnerCounter;
+import net.Boster.item.spawner.manager.SpawnersManager;
+import net.Boster.item.spawner.spawner.counter.AutomaticCounter;
+import net.Boster.item.spawner.spawner.counter.PremadeCounter;
+import net.Boster.item.spawner.spawner.counter.SpawnerCounter;
 import net.Boster.item.spawner.utils.LogType;
 import net.Boster.item.spawner.utils.Utils;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemSpawner extends AbstractHologram {
+public class ItemSpawner extends AbstractSpawner {
 
     private static final HashMap<String, ItemSpawner> hash = new HashMap<>();
 
@@ -26,7 +26,6 @@ public class ItemSpawner extends AbstractHologram {
     public final SpawnerFile file;
     public int spawnDelay;
     public int ticked = 0;
-    public int delayTicksAmount;
     public ItemStack item;
 
     public boolean spawnLimitEnabled;
@@ -74,7 +73,7 @@ public class ItemSpawner extends AbstractHologram {
             }
             if(!b1) {
                 if(item != null) {
-                    droppedItems.add(location.getWorld().dropItemNaturally(location, item.clone()));
+                    dropItem();
                 }
             }
         } else {
@@ -87,6 +86,16 @@ public class ItemSpawner extends AbstractHologram {
         updateLines();
     }
 
+    public void dropItem() {
+        if(SpawnersManager.getTaskManager().isAsync()) {
+            Bukkit.getScheduler().runTask(BosterItemSpawner.getInstance(), () -> {
+                droppedItems.add(location.getWorld().dropItemNaturally(location, item.clone()));
+            });
+        } else {
+            droppedItems.add(location.getWorld().dropItemNaturally(location, item.clone()));
+        }
+    }
+
     public void updateLines() {
         int t = showItemT ? 1 : 0;
         for(int l = 0; l < getLines().size(); l++) {
@@ -94,26 +103,8 @@ public class ItemSpawner extends AbstractHologram {
             String s = Utils.toColor(lines.get(l).replace("%delay%", Integer.toString(spawnDelay))
                     .replace("%spawn_in%", Integer.toString(spawnDelay - ticked))
                     .replace("%spawn_in_formatted%", spawnerCounter.getAsString()));
-            if(hologram.size() > i) {
-                setLine((CraftTextLine) hologram.getLine(i), s);
-            } else {
-                String c = ChatColor.stripColor(s);
-                if(c == null || c.isEmpty()) {
-                    hologram.insertTextLine(i, null);
-                } else {
-                    hologram.insertTextLine(i, s);
-                }
-            }
+            insertLine(i, s);
         }
-    }
-
-    private void setLine(CraftTextLine line, String s) {
-        if(line.getText() == null && s == null) return;
-
-        String c = ChatColor.stripColor(s);
-        if((line.getText() == null || line.getText().isEmpty()) && (c == null || c.isEmpty())) return;
-
-        line.setText(c != null && !c.isEmpty() ? s : null);
     }
 
     public void filterItems() {
@@ -151,7 +142,7 @@ public class ItemSpawner extends AbstractHologram {
 
     public void start() {
         showItem();
-        run(delayTicksAmount, delayTicksAmount);
+        run();
     }
 
     public void clearDrops() {
@@ -176,7 +167,12 @@ public class ItemSpawner extends AbstractHologram {
     }
 
     public void remove() {
+        stopTask();
         removeHolograms();
+        clear();
+    }
+
+    public void clear() {
         hash.remove(name);
     }
 

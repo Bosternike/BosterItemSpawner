@@ -2,7 +2,7 @@ package net.Boster.item.spawner.libs;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.Boster.item.spawner.BosterItemSpawner;
-import net.Boster.item.spawner.hologram.ItemSpawner;
+import net.Boster.item.spawner.spawner.ItemSpawner;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 

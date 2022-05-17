@@ -1,9 +1,10 @@
 package net.Boster.item.spawner.manager;
 
+import lombok.Getter;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;
 import net.Boster.item.spawner.files.SupportFile;
-import net.Boster.item.spawner.hologram.ItemSpawner;
+import net.Boster.item.spawner.spawner.ItemSpawner;
 import net.Boster.item.spawner.utils.LogType;
 import net.Boster.item.spawner.utils.Utils;
 import org.bukkit.Location;
@@ -14,10 +15,36 @@ import java.io.File;
 
 public class SpawnersManager {
 
+    @Getter @NotNull private static TaskManager taskManager = new DefaultTaskManager();
+
     public static void enable() {
         loadFiles();
         for(SpawnerFile f : SpawnerFile.getValues()) {
             loadSpawner(f);
+        }
+        taskManager.start();
+    }
+
+    public static void disable() {
+        try {
+            taskManager.stop();
+            taskManager.clear();
+            for(ItemSpawner h : ItemSpawner.holograms()) {
+                h.clearDrops();
+                h.removeHolograms();
+            }
+            SpawnerFile.clearAll();
+        } catch (NoClassDefFoundError ignored) {}
+    }
+
+    public static void setTaskManager(@NotNull TaskManager manager, boolean run) {
+        if(taskManager.isRunning()) {
+            taskManager.stop();
+        }
+
+        taskManager = manager;
+        if(run) {
+            taskManager.start();
         }
     }
 
@@ -36,22 +63,11 @@ public class SpawnersManager {
         }
     }
 
-    public static void disable() {
-        try {
-            for(ItemSpawner h : ItemSpawner.holograms()) {
-                h.stopTask();
-                h.clearDrops();
-                h.removeHolograms();
-            }
-            SpawnerFile.clearAll();
-        } catch (NoClassDefFoundError ignored) {}
-    }
-
     public static boolean loadSpawner(@NotNull SpawnerFile f) {
         Location loc = Utils.getLocation(f.getFile().getString("location"));
         if(loc != null) {
             ItemSpawner s = new ItemSpawner(f, f.getName(), loc, f.getFile().getStringList("Hologram"));
-            s.delayTicksAmount = f.getFile().getInt("DelayTicksAmount", 20);
+            s.setDelayTicksAmount(f.getFile().getInt("DelayTicksAmount", 20));
             s.spawnDelay = f.getFile().getInt("SpawnDelay", 20);
             try {
                 s.item = Utils.deserializeItem(f.getFile().getString("item"));

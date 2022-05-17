@@ -1,7 +1,8 @@
-package net.Boster.item.spawner.hologram.counter;
+package net.Boster.item.spawner.spawner.counter;
 
-import net.Boster.item.spawner.hologram.ItemSpawner;
+import net.Boster.item.spawner.spawner.ItemSpawner;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -41,6 +42,7 @@ public class PremadeCounter implements SpawnerCounter {
     }
 
     @Override
+    @NotNull
     public String getAsString() {
         return str;
     }

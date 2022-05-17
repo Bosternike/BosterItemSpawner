@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.commands.SubCommand;
 import net.Boster.item.spawner.files.SpawnerFile;
-import net.Boster.item.spawner.hologram.ItemSpawner;
+import net.Boster.item.spawner.spawner.ItemSpawner;
 import net.Boster.item.spawner.manager.SpawnersManager;
 import net.Boster.item.spawner.utils.Utils;
 import org.bukkit.command.CommandSender;

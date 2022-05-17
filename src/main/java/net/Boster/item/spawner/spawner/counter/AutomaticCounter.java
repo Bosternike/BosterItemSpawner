@@ -1,6 +1,7 @@
-package net.Boster.item.spawner.hologram.counter;
+package net.Boster.item.spawner.spawner.counter;
 
-import net.Boster.item.spawner.hologram.ItemSpawner;
+import net.Boster.item.spawner.spawner.ItemSpawner;
+import org.jetbrains.annotations.NotNull;
 
 public class AutomaticCounter implements SpawnerCounter {
 
@@ -33,6 +34,7 @@ public class AutomaticCounter implements SpawnerCounter {
     }
 
     @Override
+    @NotNull
     public String getAsString() {
         return str;
     }
