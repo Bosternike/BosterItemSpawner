@@ -14,6 +14,11 @@
 Settings:
   Prefix: '&d&lBosterItemSpawner &8&l|'
 
+Updater:
+  Enabled: true
+  # Delay in seconds.
+  Delay: 3600
+
 Defaults:
   # Amount of ticks per cycle. 20 ticks = 1 second, it means that cycles delay will be 1 second.
   DelayTicksAmount: 20
