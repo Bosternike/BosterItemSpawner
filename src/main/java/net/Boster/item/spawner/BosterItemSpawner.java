@@ -78,7 +78,7 @@ public class BosterItemSpawner extends JavaPlugin {
                     log("There is a new update available!", LogType.UPDATER);
                     log("Current version:&c " + getDescription().getVersion(), LogType.UPDATER);
                     log("New version:&b " + version, LogType.UPDATER);
-                    log("Download link:&a https://www.spigotmc.org/resources/bosterparticles.100933/", LogType.UPDATER);
+                    log("Download link:&a https://www.spigotmc.org/resources/bosterparticles.102147/", LogType.UPDATER);
                 }
             });
         }, 0, delay * 20L);
