@@ -2,6 +2,8 @@ package net.Boster.item.spawner.utils;
 
 public enum LogType {
 
+    NONE("§d[§bBosterItemSpawner§d] ", "§7"),
+    UPDATER("§d[§bBosterItemSpawner§d] §7[§6UPDATER§7] ", "§7"),
     FINE("§d[§bBosterItemSpawner§d] §7[§aFINE§7] ", "§a"),
     INFO("§d[§bBosterItemSpawner§d] §7[§9INFO§7] ", "§9"),
     WARNING("§d[§bBosterItemSpawner§d] §7[§cWARNING§7] ", "§c"),
