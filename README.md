@@ -1,7 +1,6 @@
 <div id="top"></div>
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2bb61d9461534edda4f7a63af888856f)](https://www.codacy.com/gh/Bosternike/BosterItemSpawner/dashboard)
-<br />
+[![Codacy grade](https://img.shields.io/codacy/grade/2bb61d9461534edda4f7a63af888856f?color=A8009E&style=for-the-badge)](https://www.codacy.com/gh/Bosternike/BosterItemSpawner/dashboard)
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
