@@ -14,6 +14,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
+  <a href="https://github.com/Bosternike/BosterItemSpawner">
+    <img src="images/BosterItemSpawner.png" alt="Logo" width="800" height="250">
+  </a>
+  
 <h3 align="center">BosterItemSpawner</h3>
 
   <p align="center">
