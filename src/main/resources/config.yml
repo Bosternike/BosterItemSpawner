@@ -4,7 +4,7 @@
 # Permission to use /bis - boster.itemspawner.command.use
 # Permission to use /bis help - boster.itemspawner.command.help
 # Permission to use /bis create - boster.itemspawner.command.create
-# Permission to use /bis <command> boster.itemspawner.command.<command>
+# Permission to use /bis <command> - boster.itemspawner.command.<command>
 #
 # PlaceholderAPI PLACEHOLDERS:
 # Placeholder for spawner delay - %bosteritemspawner_<spawner>_delay%

@@ -61,7 +61,9 @@ public class BosterItemSpawner extends JavaPlugin {
     }
 
     public void prepareUpdater() {
-        //Soon
+        if(getConfig().getBoolean("Updater.Enabled", false)) {
+            enableUpdater(getConfig().getInt("Updater.Delay", 3600));
+        }
     }
 
     public void enableUpdater(int delay) {
@@ -69,7 +71,7 @@ public class BosterItemSpawner extends JavaPlugin {
             updaterTask.cancel();
         }
 
-        UpdateChecker c = new UpdateChecker(this, 0);
+        UpdateChecker c = new UpdateChecker(this, 102147);
         updaterTask = getServer().getScheduler().runTaskTimer(this, () -> {
             c.getVersion(version -> {
                 if(!getDescription().getVersion().equals(version)) {
