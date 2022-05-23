@@ -20,7 +20,7 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     private final BosterItemSpawner plugin;
 
-    public static final List<SubCommand> subCommands = new ArrayList<>();
+    public static final List<ISubCommand> subCommands = new ArrayList<>();
 
     public Commands(BosterItemSpawner plugin) {
         this.plugin = plugin;
@@ -30,6 +30,7 @@ public class Commands implements CommandExecutor, TabCompleter {
         subCommands.add(new EditCommand(plugin));
         subCommands.add(new InfoCommand(plugin));
         subCommands.add(new DeleteCommand(plugin));
+        subCommands.add(new TeleportCommand(plugin));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class Commands implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        for(SubCommand cmd : subCommands) {
+        for(ISubCommand cmd : subCommands) {
             for(String a : cmd.getArguments()) {
                 if(a.equalsIgnoreCase(args[0])) {
                     String[] arguments = new String[args.length - 1];
@@ -58,8 +59,8 @@ public class Commands implements CommandExecutor, TabCompleter {
         return false;
     }
 
-    public static SubCommand getSubCommand(String argument) {
-        for(SubCommand cmd : subCommands) {
+    public static ISubCommand getSubCommand(String argument) {
+        for(ISubCommand cmd : subCommands) {
             for(String a : cmd.getArguments()) {
                 if(a.equalsIgnoreCase(argument)) {
                     return cmd;
@@ -78,7 +79,7 @@ public class Commands implements CommandExecutor, TabCompleter {
             subCommands.forEach(l -> list.addAll(Arrays.asList(l.getArguments())));
             return SubCommand.createDefaultTabComplete(list, args, 0);
         } else {
-            for(SubCommand c : subCommands) {
+            for(ISubCommand c : subCommands) {
                 if(c.hasPermission(sender)) {
                     for(String i : c.getArguments()) {
                         if(i.equalsIgnoreCase(args[0])) {

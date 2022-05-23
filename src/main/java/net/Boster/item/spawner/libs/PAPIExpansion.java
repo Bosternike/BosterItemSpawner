@@ -26,10 +26,10 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
     @Override
     public String onRequest(@NotNull OfflinePlayer p, @NotNull String params) {
-        if(params.contains("_")) return null;
+        if(!params.contains("_")) return "too few arguments";
 
         String[] ss = params.split("_");
-        if(ss.length < 2) return null;
+        if(ss.length < 2) return "too few arguments";
 
         ItemSpawner spawner = ItemSpawner.get(ss[0]);
         String arg = ss[1];

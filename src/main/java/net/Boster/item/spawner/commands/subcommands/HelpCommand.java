@@ -2,6 +2,7 @@ package net.Boster.item.spawner.commands.subcommands;
 
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.commands.Commands;
+import net.Boster.item.spawner.commands.ISubCommand;
 import net.Boster.item.spawner.commands.SubCommand;
 import net.Boster.item.spawner.utils.Utils;
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ public class HelpCommand extends SubCommand {
         List<String> commands = new ArrayList<>();
 
         for(String s : getMessages("sequence")) {
-            SubCommand cmd = Commands.getSubCommand(s);
+            ISubCommand cmd = Commands.getSubCommand(s);
             if(cmd != null) {
                 if(cmd.hasPermission(sender)) {
                     commands.addAll(cmd.getHelp());

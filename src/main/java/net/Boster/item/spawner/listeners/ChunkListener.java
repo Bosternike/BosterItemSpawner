@@ -17,6 +17,7 @@ public class ChunkListener implements Listener {
                 if(s.isInChunk(e.getChunk())) {
                     s.stopTask();
                     s.removeHolograms();
+                    s.clearDrops();
                 } else {
                     s.dropsInChunk(e.getChunk()).forEach(Entity::remove);
                 }

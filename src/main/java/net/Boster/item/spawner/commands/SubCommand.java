@@ -1,35 +1,36 @@
 package net.Boster.item.spawner.commands;
 
+import lombok.Getter;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;
 import net.Boster.item.spawner.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class SubCommand {
+public abstract class SubCommand implements ISubCommand {
 
-    protected final BosterItemSpawner plugin;
-    private final String[] arguments;
+    @Getter @NotNull protected final BosterItemSpawner plugin;
+    @Getter @NotNull private final String[] arguments;
 
-    public SubCommand(BosterItemSpawner plugin, String argument) {
-        this(plugin, new String[]{argument});
-    }
+    public SubCommand(@NotNull BosterItemSpawner plugin, @NotNull String... arguments) {
+        if(arguments.length == 0) {
+            throw new IllegalStateException("Command arguments can not be null");
+        }
 
-    public SubCommand(BosterItemSpawner plugin, String[] arguments) {
         this.plugin = plugin;
         this.arguments = arguments;
     }
 
     public abstract boolean onCommand(@NotNull CommandSender sender, @NotNull String[] args);
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
-        List<String> spawners = new ArrayList<>();
-        SpawnerFile.getValues().forEach(s -> spawners.add(s.getName()));
-        return createDefaultTabComplete(spawners, args, args.length - 1);
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
+        return createDefaultTabComplete(SpawnerFile.getValues().stream().map(SpawnerFile::getName).collect(Collectors.toList()), args, args.length - 1);
     }
 
     public static List<String> createDefaultTabComplete(List<String> vars, String[] args, int arg) {
@@ -47,13 +48,7 @@ public abstract class SubCommand {
             }
         }
 
-        List<String> spawners = new ArrayList<>();
-        SpawnerFile.getValues().forEach(s -> spawners.add(s.getName()));
-        return createDefaultTabComplete(spawners, args, args.length - 1);
-    }
-
-    public String[] getArguments() {
-        return arguments;
+        return createDefaultTabComplete(SpawnerFile.getValues().stream().map(SpawnerFile::getName).collect(Collectors.toList()), args, args.length - 1);
     }
 
     public void sendUsage(CommandSender sender) {
@@ -63,7 +58,7 @@ public abstract class SubCommand {
         }
     }
 
-    public boolean hasPermission(CommandSender sender) {
+    public boolean hasPermission(@NotNull CommandSender sender) {
         return sender.hasPermission("boster.itemspawner.command." + arguments[0]);
     }
 
@@ -80,7 +75,7 @@ public abstract class SubCommand {
         }
     }
 
-    public List<String> getHelp() {
+    public @NotNull List<String> getHelp() {
         return plugin.getConfig().getStringList("Messages." + arguments[0] + ".help");
     }
 

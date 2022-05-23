@@ -37,7 +37,6 @@ public class ItemSpawner extends AbstractSpawner {
 
     public boolean showItem;
     public boolean showItemT;
-    public Item shownItem;
 
     public SpawnerCounter spawnerCounter;
 
@@ -163,16 +162,13 @@ public class ItemSpawner extends AbstractSpawner {
     }
 
     public void removeHolograms() {
-        if(shownItem != null) {
-            shownItem.remove();
-        }
         super.remove();
     }
 
     public void remove() {
         stopTask();
         removeHolograms();
-        clear();
+        clearDrops();
     }
 
     public void clear() {

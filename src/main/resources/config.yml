@@ -67,6 +67,7 @@ Messages:
     - 'delete'
     - 'edit'
     - 'info'
+    - 'teleport'
     startWith:
     - '&f'
     endWith:
@@ -119,5 +120,12 @@ Messages:
     - '%text%'
     - '&6+&a---------------- &d%name% &a------------------&6+'
     - '&f'
+  teleport:
+    usage: '%prefix% &fUsage &7- &d/bis tp [spawner] [player]'
+    help:
+      - '&f Teleport to spawner &7- &d/bis tp [spawner] [player]'
+    nullPlayer: '%prefix% &fPlayer &c%name% &fcould not be found.'
+    successOthers: '%prefix% &fPlayer &d%player% &fhas been teleported to spawner &a%name%&f!'
+    success: "%prefix% &fYou've teleported to spawner &a%name%&f!"
 
       
