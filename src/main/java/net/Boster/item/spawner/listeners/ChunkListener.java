@@ -29,7 +29,9 @@ public class ChunkListener implements Listener {
     public void onChunkLoad(ChunkLoadEvent e) {
         for(ItemSpawner s : ItemSpawner.spawners()) {
             if(!s.isRunning()) {
-                s.start();
+                if(s.isInChunk(e.getChunk())) {
+                    s.start();
+                }
             }
         }
     }

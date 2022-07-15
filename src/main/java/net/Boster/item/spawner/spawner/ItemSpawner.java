@@ -1,5 +1,6 @@
 package net.Boster.item.spawner.spawner;
 
+import me.filoghost.holographicdisplays.api.beta.Position;
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;
 import net.Boster.item.spawner.manager.SpawnersManager;
@@ -135,14 +136,18 @@ public class ItemSpawner extends AbstractSpawner {
             ItemStack itemStack = item.clone();
             itemStack.setAmount(1);
             if(showItemT) {
-                hologram.insertItemLine(0, itemStack);
+                hologram.getLines().insertItem(0, itemStack);
             } else {
-                hologram.appendItemLine(itemStack);
+                hologram.getLines().appendItem(itemStack);
             }
         }
     }
 
     public void start() {
+        if(hologram.isDeleted()) {
+            setupHologram();
+        }
+
         showItem();
         run();
     }
@@ -176,7 +181,17 @@ public class ItemSpawner extends AbstractSpawner {
     }
 
     public boolean isInChunk(@NotNull Chunk c) {
-        if(hologram.isInChunk(c)) return true;
+        Position pos = hologram.getPosition();
+
+        int xp = c.getX() * 16;
+        int zp = c.getZ() * 16;
+        int x = pos.getBlockX();
+        int z = pos.getBlockZ();
+
+        if ((xp <= x) && (xp + 15 >= x) && (zp <= z) && (zp + 15 >= z)) {
+            return true;
+        }
+
         return Utils.chunkEquals(c, location.getChunk());
     }
 
