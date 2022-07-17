@@ -31,8 +31,6 @@ public class OldHoloProvider implements HoloProvider {
     private final Class<?> World = NMSHelper.getNMSClass("World");
     private final Class<?> Entity = NMSHelper.getNMSClass("Entity");
     private final Class<?> DataWatcher = NMSHelper.getNMSClass("DataWatcher");
-    private final Class<?> MojangsonParser = NMSHelper.getNMSClass("MojangsonParser");
-    private final Class<?> NBTTagCompound = NMSHelper.getNMSClass("NBTTagCompound");
     private final Class<?> EntityArmorStand = NMSHelper.getNMSClass("EntityArmorStand");
     private final Class<?> EntityItem = NMSHelper.getNMSClass("EntityItem");
     private final Class<?> ItemStack = NMSHelper.getNMSClass("ItemStack");

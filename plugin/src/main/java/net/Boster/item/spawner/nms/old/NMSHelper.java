@@ -41,7 +41,7 @@ public class NMSHelper {
         try {
             return o.getClass().getMethod("getHandle").invoke(o);
         } catch (Exception e) {
-            throw new Error();
+            return null;
         }
     }
 

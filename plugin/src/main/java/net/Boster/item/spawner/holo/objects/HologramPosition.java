@@ -77,7 +77,8 @@ public class HologramPosition implements HoloPosition {
         try {
             return (HoloPosition) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new Error();
+            /*This may never happen*/
+            return this;
         }
     }
 
