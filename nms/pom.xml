@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>BosterItemSpawner</artifactId>
+        <groupId>net.boster.itemspawner</groupId>
+        <version>1.0.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nms</artifactId>
+    <version>1.0.4</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>v1_17_R1</module>
+        <module>v1_18_R1</module>
+        <module>v1_18_R2</module>
+        <module>v1_19_R1</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.boster.itemspawner</groupId>
+            <artifactId>plugin</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+    </dependencies>
+
+</project>
