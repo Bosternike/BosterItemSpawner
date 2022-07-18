@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum HoloLineType {
 
-    TEXT(0.30),
-    ITEM(0.5);
+    TEXT(0.27),
+    ITEM(0.4);
 
     @Getter private final double height;
 }

@@ -2,11 +2,11 @@ package net.Boster.item.spawner.spawner;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.Boster.item.spawner.BosterItemSpawner;
+import net.Boster.item.spawner.holo.HoloLineType;
 import net.Boster.item.spawner.holo.Hologram;
+import net.Boster.item.spawner.holo.line.HoloLine;
 import net.Boster.item.spawner.holo.line.HoloTextLine;
 import net.Boster.item.spawner.manager.SpawnersManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -25,11 +25,12 @@ public abstract class AbstractSpawner {
     public AbstractSpawner(@NotNull Location loc, @NotNull List<String> lines) {
         this.location = loc;
         this.lines = lines;
-        this.hologram = new Hologram(loc);
+        setupHologram();
     }
 
     protected void setupHologram() {
-        this.hologram = new Hologram(location);
+        hologram = new Hologram(location);
+        hologram.showForAll();
     }
 
     public void run() {
@@ -44,15 +45,12 @@ public abstract class AbstractSpawner {
 
     public void insertLine(int i, String s) {
         if(hologram.getLines().size() > i) {
-            setLine((HoloTextLine) hologram.getLines().get(i), s);
-        } else {
-            if(SpawnersManager.getTaskManager().isAsync()) {
-                Bukkit.getScheduler().runTask(BosterItemSpawner.getInstance(), () -> {
-                    insertLine1(i, s);
-                });
-            } else {
-                insertLine1(i, s);
+            HoloLine line = hologram.getLines().get(i);
+            if(line.getType() == HoloLineType.TEXT) {
+                setLine((HoloTextLine) line, s);
             }
+        } else {
+            insertLine1(i, s);
         }
     }
 
@@ -77,6 +75,8 @@ public abstract class AbstractSpawner {
     public abstract void tick();
 
     public void remove() {
-        hologram.delete();
+        if(!hologram.isDestroyed()) {
+            hologram.destroy();
+        }
     }
 }

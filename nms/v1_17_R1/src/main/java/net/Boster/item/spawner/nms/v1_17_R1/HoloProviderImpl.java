@@ -26,7 +26,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.network.protocol.game.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class HoloProviderImpl implements HoloProvider {
 
@@ -87,12 +89,14 @@ public class HoloProviderImpl implements HoloProvider {
         for(Player p : players) {
             ServerPlayer tc = ((CraftPlayer) p).getHandle();
 
-            if(!line.getHologram().getViewers().contains(p)) {
+            if(!line.getEntity().getViewers().contains(p)) {
                 if(pa3 != null) {
                     sendPackets(tc, pa, pa2, pa3, pa4, pa5);
                 } else {
                     sendPackets(tc, pa, pa2);
                 }
+
+                line.getEntity().getViewers().add(p);
             } else {
                 if (pa4 != null) {
                     sendPackets(tc, pa2, pa4);
@@ -112,6 +116,7 @@ public class HoloProviderImpl implements HoloProvider {
     @RequiredArgsConstructor
     static class CraftItemEntity implements NMSItemEntity {
 
+        @Getter @NotNull private final List<Player> viewers = new ArrayList<>();
         @Getter @NotNull private final ArmorStand object;
         @Getter @NotNull private final ItemEntity itemEntity;
 
@@ -125,7 +130,7 @@ public class HoloProviderImpl implements HoloProvider {
             ClientboundRemoveEntitiesPacket r = new ClientboundRemoveEntitiesPacket(object.getId());
             ClientboundRemoveEntitiesPacket r2 = new ClientboundRemoveEntitiesPacket(itemEntity.getId());
 
-            for(Player p : Bukkit.getOnlinePlayers()) {
+            for(Player p : viewers) {
                 sendPackets(((CraftPlayer) p).getHandle(), r, r2);
             }
         }
@@ -139,6 +144,7 @@ public class HoloProviderImpl implements HoloProvider {
     @RequiredArgsConstructor
     static class CraftTextEntity implements NMSTextEntity {
 
+        @Getter @NotNull private final List<Player> viewers = new ArrayList<>();
         @Getter @NotNull private final ArmorStand object;
 
         @Override
@@ -150,7 +156,7 @@ public class HoloProviderImpl implements HoloProvider {
         public void destroy() {
             ClientboundRemoveEntitiesPacket r = new ClientboundRemoveEntitiesPacket(object.getId());
 
-            for(Player p : Bukkit.getOnlinePlayers()) {
+            for(Player p : viewers) {
                 ((CraftPlayer) p).getHandle().connection.send(r);
             }
         }

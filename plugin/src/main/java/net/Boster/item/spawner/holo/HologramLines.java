@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class HologramLines implements Iterable<HoloLine>, Cloneable {
 
     @Getter @NotNull private final Hologram hologram;
 
-    private final List<HoloLine> lines = new ArrayList<>();
+    private final List<HoloLine> lines = new LinkedList<>();
 
     public int size() {
         return lines.size();
@@ -36,9 +36,12 @@ public class HologramLines implements Iterable<HoloLine>, Cloneable {
         HoloPosition pos;
         if(i < lines.size()) {
             HoloLine l = lines.get(i);
-            if(!l.isDeleted()) {
-                l.delete();
+            l.destroy();
+
+            if(l.getHeight() != HoloLineType.TEXT.getHeight() && i + 1 < lines.size()) {
+                moveLines(HoloLineType.TEXT.getHeight(), i);
             }
+
             pos = l.getPosition();
         } else {
             pos = hologram.getNextLineLocation();
@@ -53,6 +56,18 @@ public class HologramLines implements Iterable<HoloLine>, Cloneable {
         return line;
     }
 
+    private void moveLines(double height, int i) {
+        for(int t = i; t < lines.size(); t++) {
+            HoloLine line = lines.get(i);
+            if(t == i) {
+                line.move(line.getPosition().clone().subtract(0, height, 0));
+            } else {
+                HoloLine l = lines.get(t - 1);
+                line.move(l.getPosition().clone().subtract(0, l.getHeight(), 0));
+            }
+        }
+    }
+
     public @NotNull HoloTextLine appendText(@Nullable String text) {
         HoloTextLine line = new HolographicTextLine(hologram, hologram.getNextLineLocation(), text);
         lines.add(line);
@@ -63,9 +78,12 @@ public class HologramLines implements Iterable<HoloLine>, Cloneable {
         HoloPosition pos;
         if(i < lines.size()) {
             HoloLine l = lines.get(i);
-            if(!l.isDeleted()) {
-                l.delete();
+            l.destroy();
+
+            if(l.getHeight() != HoloLineType.ITEM.getHeight() && i + 1 < lines.size()) {
+                moveLines(HoloLineType.ITEM.getHeight(), i);
             }
+
             pos = l.getPosition();
         } else {
             pos = hologram.getNextLineLocation();
@@ -100,6 +118,14 @@ public class HologramLines implements Iterable<HoloLine>, Cloneable {
                 line.move(l.getPosition().clone().subtract(0, l.getHeight(), 0));
             }
         }
+    }
+
+    public void remove(int i) {
+        lines.remove(i);
+    }
+
+    public void remove(@NotNull HoloLine line) {
+        lines.remove(line);
     }
 
     @Override

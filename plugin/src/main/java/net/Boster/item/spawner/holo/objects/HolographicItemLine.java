@@ -17,7 +17,7 @@ public class HolographicItemLine implements HoloItemLine {
     @Getter @NotNull private HoloPosition position;
     @Getter @Nullable private ItemStack item;
 
-    @Getter private boolean deleted = false;
+    @Getter private boolean destroyed = false;
 
     @Getter @NotNull private NMSItemEntity entity;
 
@@ -26,6 +26,7 @@ public class HolographicItemLine implements HoloItemLine {
         this.position = pos;
         this.item = item;
         this.entity = (NMSItemEntity) HologramsProvider.getProvider().createLineEntity(this);
+        HologramsProvider.getProvider().show(this, hologram.getViewers());
     }
 
     @Override
@@ -48,8 +49,17 @@ public class HolographicItemLine implements HoloItemLine {
     }
 
     @Override
-    public void delete() {
-        deleted = true;
+    public void spawn() {
+        if(!destroyed) return;
+
+        entity = (NMSItemEntity) HologramsProvider.getProvider().createLineEntity(this);
+    }
+
+    @Override
+    public void destroy() {
+        if(destroyed) return;
+
+        destroyed = true;
         entity.destroy();
     }
 }

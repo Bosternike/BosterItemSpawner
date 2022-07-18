@@ -1,6 +1,5 @@
 package net.Boster.item.spawner.listeners;
 
-import com.google.common.collect.ImmutableList;
 import net.Boster.item.spawner.spawner.ItemSpawner;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +14,7 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         for(ItemSpawner s : ItemSpawner.spawners()) {
-            s.getHologram().show(ImmutableList.of(p));
+            s.getHologram().show(p);
         }
     }
 
@@ -23,7 +22,7 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         for(ItemSpawner s : ItemSpawner.spawners()) {
-            s.getHologram().getViewers().remove(p);
+            s.getHologram().removeViewer(p);
         }
     }
 }

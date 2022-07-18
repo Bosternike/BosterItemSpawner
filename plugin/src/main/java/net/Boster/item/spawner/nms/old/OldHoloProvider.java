@@ -139,12 +139,14 @@ public class OldHoloProvider implements HoloProvider {
             }
 
             for(Player p : players) {
-                if(!line.getHologram().getViewers().contains(p)) {
+                if(!line.getEntity().getViewers().contains(p)) {
                     if(pa3 != null) {
                         NMSHelper.sendPacket(p, pa, pa2, pa3, pa4, pa5);
                     } else {
                         NMSHelper.sendPacket(p, pa, pa2);
                     }
+
+                    line.getEntity().getViewers().add(p);
                 } else {
                     if (pa4 != null) {
                         NMSHelper.sendPacket(p, pa2, pa4);
@@ -161,6 +163,8 @@ public class OldHoloProvider implements HoloProvider {
     @RequiredArgsConstructor
     static class CraftItemEntity implements NMSItemEntity {
 
+        @Getter @NotNull private final List<Player> viewers = new ArrayList<>();
+
         @Getter private final int id;
         @Getter private final int topID;
 
@@ -173,7 +177,7 @@ public class OldHoloProvider implements HoloProvider {
 
         @Override
         public void destroy() {
-            for(Player p : Bukkit.getOnlinePlayers()) {
+            for(Player p : viewers) {
                 NMSHelper.sendPacket(p, destroyPacket);
             }
         }
@@ -191,13 +195,14 @@ public class OldHoloProvider implements HoloProvider {
     @RequiredArgsConstructor
     static abstract class CraftTextEntity implements NMSTextEntity {
 
+        @Getter @NotNull private final List<Player> viewers = new ArrayList<>();
         @Getter private final int id;
         @Getter @NotNull private final Object object;
         private final Object destroyPacket;
 
         @Override
         public void destroy() {
-            for(Player p : Bukkit.getOnlinePlayers()) {
+            for(Player p : viewers) {
                 NMSHelper.sendPacket(p, destroyPacket);
             }
         }

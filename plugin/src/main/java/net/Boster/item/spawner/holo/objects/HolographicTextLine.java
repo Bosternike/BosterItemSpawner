@@ -18,13 +18,14 @@ public class HolographicTextLine implements HoloTextLine {
 
     @Getter @NotNull private NMSTextEntity entity;
 
-    @Getter private boolean deleted = false;
+    @Getter private boolean destroyed = false;
 
     public HolographicTextLine(@NotNull Hologram holo, @NotNull HoloPosition pos, @Nullable String text) {
         this.hologram = holo;
         this.position = pos;
         this.text = text;
         this.entity = (NMSTextEntity) HologramsProvider.getProvider().createLineEntity(this);
+        HologramsProvider.getProvider().show(this, hologram.getViewers());
     }
 
     @Override
@@ -40,8 +41,17 @@ public class HolographicTextLine implements HoloTextLine {
     }
 
     @Override
-    public void delete() {
-        deleted = true;
+    public void spawn() {
+        if(!destroyed) return;
+
+        entity = (NMSTextEntity) HologramsProvider.getProvider().createLineEntity(this);
+    }
+
+    @Override
+    public void destroy() {
+        if(destroyed) return;
+
+        destroyed = true;
         entity.destroy();
     }
 

@@ -40,11 +40,8 @@ Defaults:
     Enabled: false
     amount: 3
     DisableCounterOnFull: true
-  ShowItem:
-    Enabled: true
-    # Show the item in top of hologram or in the bottom?
-    InTop: true
   Hologram:
+  - '%item%'
   - '&f'
   - '&fDelay&7: &d%delay%'
   - '&7Spawn in: &f%spawn_in%'

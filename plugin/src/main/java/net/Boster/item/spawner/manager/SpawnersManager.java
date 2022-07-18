@@ -77,8 +77,7 @@ public class SpawnersManager {
             s.spawnLimitEnabled = f.getFile().getBoolean("SpawnLimit.Enabled", false);
             s.spawnLimitAmount = f.getFile().getInt("SpawnLimit.Amount", 3);
             s.spawnLimitDisableCounter = f.getFile().getBoolean("SpawnLimit.DisableCounterOnFull", true);
-            s.loadShownItem();
-            s.start();
+            s.run();
             return true;
         } else {
             BosterItemSpawner.getInstance().log("&7Could not load spawner \"&c" + f.getName() + "&7\". Location is null!", LogType.WARNING);

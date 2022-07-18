@@ -18,6 +18,7 @@ public interface HoloLine {
 
     void move(@NotNull HoloPosition position);
 
-    void delete();
-    boolean isDeleted();
+    void spawn();
+    void destroy();
+    boolean isDestroyed();
 }

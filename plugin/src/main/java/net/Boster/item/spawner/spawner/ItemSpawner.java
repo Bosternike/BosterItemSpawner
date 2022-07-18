@@ -2,6 +2,7 @@ package net.Boster.item.spawner.spawner;
 
 import net.Boster.item.spawner.BosterItemSpawner;
 import net.Boster.item.spawner.files.SpawnerFile;
+import net.Boster.item.spawner.holo.HoloLineType;
 import net.Boster.item.spawner.manager.SpawnersManager;
 import net.Boster.item.spawner.spawner.counter.AutomaticCounter;
 import net.Boster.item.spawner.spawner.counter.PremadeCounter;
@@ -34,9 +35,6 @@ public class ItemSpawner extends AbstractSpawner {
     public boolean spawnLimitEnabled;
     public int spawnLimitAmount;
     public boolean spawnLimitDisableCounter;
-
-    public boolean showItem;
-    public boolean showItemT;
 
     public SpawnerCounter spawnerCounter;
 
@@ -99,13 +97,17 @@ public class ItemSpawner extends AbstractSpawner {
     }
 
     public void updateLines() {
-        int t = showItemT ? 1 : 0;
         for(int l = 0; l < getLines().size(); l++) {
-            int i = l + t;
-            String s = Utils.toColor(lines.get(l).replace("%delay%", Integer.toString(spawnDelay))
+            String s = lines.get(l);
+            if(s.equalsIgnoreCase("%item%")) {
+                showItem(l);
+                continue;
+            }
+
+            s = Utils.toColor(s.replace("%delay%", Integer.toString(spawnDelay))
                     .replace("%spawn_in%", Integer.toString(spawnDelay - ticked))
                     .replace("%spawn_in_formatted%", spawnerCounter.getAsString()));
-            insertLine(i, s);
+            insertLine(l, s);
         }
     }
 
@@ -119,35 +121,24 @@ public class ItemSpawner extends AbstractSpawner {
         }
     }
 
-    public void loadShownItem() {
-        showItem = file.getFile().getBoolean("ShowItem.Enabled", true);
-        if(showItem) {
-            showItemT = file.getFile().getBoolean("ShowItem.InTop", true);
-        }
-    }
-
     public void stopTask() {
         super.stopTask();
     }
 
-    public void showItem() {
-        if(showItem) {
-            ItemStack itemStack = item.clone();
-            itemStack.setAmount(1);
-            if(showItemT) {
-                hologram.getLines().insertItem(0, itemStack);
-            } else {
-                hologram.getLines().appendItem(itemStack);
-            }
-        }
+    public void showItem(int i) {
+        ItemStack itemStack = item.clone();
+        itemStack.setAmount(1);
+
+        if(hologram.getLines().size() > i && hologram.getLines().get(i).getType() == HoloLineType.ITEM) return;
+
+        hologram.getLines().insertItem(i, itemStack);
     }
 
     public void start() {
-        if(hologram.isDeleted()) {
+        if(hologram.isDestroyed()) {
             setupHologram();
         }
 
-        showItem();
         run();
     }
 
@@ -180,16 +171,7 @@ public class ItemSpawner extends AbstractSpawner {
     }
 
     public boolean isInChunk(@NotNull Chunk c) {
-        int xp = c.getX() * 16;
-        int zp = c.getZ() * 16;
-        int x = hologram.getPosition().getBlockX();
-        int z = hologram.getPosition().getBlockZ();
-
-        if ((xp <= x) && (xp + 15 >= x) && (zp <= z) && (zp + 15 >= z)) {
-            return true;
-        }
-
-        return Utils.chunkEquals(c, location.getChunk());
+        return hologram.getPosition().isInChunk(c) || Utils.chunkEquals(c, location.getChunk());
     }
 
     public List<Item> dropsInChunk(@NotNull Chunk c) {
