@@ -39,7 +39,6 @@
 ## Contact
 
 <li>LinkedIn: <a href="https://www.linkedin.com/in/vlasov-andrii/">Andrew</a></li>
-<li>Project Link: <a href=https://github.com/Bosternike/BosterItemSpawner>source code</a></li>
 
 [contributors-shield]: https://img.shields.io/github/contributors/Bosternike/BosterItemSpawner.svg?style=for-the-badge
 [contributors-url]: https://github.com/Bosternike/BosterItemSpawner/graphs/contributors
