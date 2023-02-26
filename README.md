@@ -38,7 +38,7 @@
 <!-- CONTACT -->
 ## Contact
 
-<li>LinkedIn: <a href="https://www.linkedin.com/in/andrew-vlasov-9a37a21bb/">Andrew</a></li>
+<li>LinkedIn: <a href="https://www.linkedin.com/in/vlasov-andrii/">Andrew</a></li>
 <li>Project Link: <a href=https://github.com/Bosternike/BosterItemSpawner>source code</a></li>
 
 [contributors-shield]: https://img.shields.io/github/contributors/Bosternike/BosterItemSpawner.svg?style=for-the-badge
@@ -52,4 +52,4 @@
 [license-shield]: https://img.shields.io/github/license/Bosternike/BosterItemSpawner.svg?style=for-the-badge
 [license-url]: https://github.com/Bosternike/BosterItemSpawner/blob/main/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/andrew-vlasov-9a37a21bb
+[linkedin-url]: https://www.linkedin.com/in/vlasov-andrii/

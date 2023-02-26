@@ -18,7 +18,7 @@ public class Hologram {
 
     @Getter @NotNull private HoloPosition position;
     @Getter @NotNull private final HologramLines lines;
-    @Getter @NotNull private List<Player> viewers = new LinkedList<>();
+    @Getter @NotNull private final List<Player> viewers = new LinkedList<>();
 
     @Getter private boolean destroyed = false;
 
