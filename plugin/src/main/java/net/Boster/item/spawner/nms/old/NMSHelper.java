@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Ref;
 
 public class NMSHelper {
 
@@ -23,27 +22,30 @@ public class NMSHelper {
         }
     }
 
-    public static @NotNull Class<?> getCBClass(String clazz) {
+    public static Class<?> getCBClass(String clazz) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + Version.getCurrentVersion().name() + "." + clazz);
         } catch (Exception e) {
-            throw new Error(e);
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public static @NotNull Class<?> getNMSClass(String clazz) {
+    public static Class<?> getNMSClass(String clazz) {
         try {
             return Class.forName("net.minecraft.server." + Version.getCurrentVersion().name() + "." + clazz);
         } catch (Exception e) {
-            throw new Error(e);
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public static @NotNull Object getHandle(@NotNull Object o) {
+    public static Object getHandle(@NotNull Object o) {
         try {
             return o.getClass().getMethod("getHandle").invoke(o);
         } catch (Exception e) {
-            throw new Error(e);
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -60,19 +62,21 @@ public class NMSHelper {
         } catch(Exception e) { e.printStackTrace(); }
     }
 
-    public static @NotNull Method getMethod(@NotNull Class<?> clazz, @NotNull String method, @NotNull Class<?>... parameters) {
+    public static Method getMethod(@NotNull Class<?> clazz, @NotNull String method, @NotNull Class<?>... parameters) {
         try {
             return clazz.getMethod(method, parameters);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return null;
         }
     }
 
-    public static @NotNull Constructor<?> getConstructor(@NotNull Class<?> clazz, @NotNull Class<?>... parameters) {
+    public static Constructor<?> getConstructor(@NotNull Class<?> clazz, @NotNull Class<?>... parameters) {
         try {
             return clazz.getConstructor(parameters);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return null;
         }
     }
 }
